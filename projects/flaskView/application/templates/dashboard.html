@@ -1,0 +1,65 @@
+{% extends 'layout.html'%}
+{% block nav %}
+        {% include 'header.html' %}
+{% endblock %}
+{% block status%}
+  <section class="intro-single">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-lg-8">
+          <div class="title-single-box">
+            <h5><small class="text-muted">Dashboard</small></h5>
+            <span class="color-text-a"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock%}
+{% block content %}
+<h5 class="text-muted">Logging History ,</h5>
+<div class="searchRow">
+  <div class="searchInner">
+    <label>Search</label>
+    <input type="text" class="form-control" name="search" id="SearchBar" />
+  </div>
+
+</div>
+
+<div class="table-responsive">
+<table class="table row-select">
+      <tbody class="scheduleStockList">
+      <tr>
+        <th style="border-top: 0;"><strong>ID</strong></th>
+        <th style="border-top: 0;"><strong>JUS_GUUID</strong></th>
+        <th style="border-top: 0;"><strong>COURTNO</strong></th>
+        <th style="background-color: #fee300; text-align: center;">ACTION</th>
+        <th style="background-color: #d9ffff; text-align: center;">CASEID</th>
+        <th style="background-color: #d9ffff; text-align: center;">TRAN TYPE</th>
+        <th style="background-color: #d9ffff; text-align: center;">OPERATION</th>
+        <th style="background-color: #d9ffff; text-align: center;">RESP CODE</th>
+        <th style="background-color: #fee300; text-align: center;">DTO SENT</th>
+        <th style="background-color: #d9ffff; text-align: center;">RESP DTO</th>
+        <th style="background-color: #fee300; text-align: center;">TIMESTAMP</th>
+      </tr>
+      {% for logs in logging_list %}
+           <tr class="stockRow">
+               <td>{{logs.id}}</td>
+               <td>{{logs.jus_uuid}}</td>
+               <td>{{logs.courtno}}</td>
+               <td>{{logs.action}}</td>
+               <td>{{logs.caseid}}</td>
+               <td>{{logs.tran_type}}</td>
+               <td>{{logs.operation}}</td>
+               <td>{{logs.dto_sent}}</td>
+               <td>{{logs.resp_dto}}</td>
+               <td>{{logs.resp_code}}</td>
+               <td>{{logs.timestamp}}</td>
+           </tr>
+        {% endfor %}
+      </tbody>
+</table>
+</div>
+{% endblock %}
+
+

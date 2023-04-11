@@ -1,0 +1,807 @@
+{% extends 'layout.html' %}
+<!--css requires for chart.js-->
+<!--end of css requires-->
+<!--here we are going to add chart.js and excelGen files -->
+    {% block nav %}
+        {% include 'header.html' %}
+{% endblock %}
+{% block content %}
+    <div class="row" style="margin-top:85px;">
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-2 col-xs-12">
+            <div class="col-lg-12 col-xs-12 bluebg">
+                <button class="defaultbtn">Customers</button>
+                <button class="defaultbtn" data-toggle="modal" data-target="#searchpopup">Search</button>
+                <button class="defaultbtn">Invoices</button>
+                <button class="defaultbtn">Statements</button>
+                <button class="defaultbtn">Messages</button>
+                <button class="defaultbtn">Latest Changes</button>
+                <button class="defaultbtn">Doc-Box</button>
+            </div>
+            <div class="col-lg-12 col-xs-12 bluebg lefttext">
+                <ul>
+                    <li><span>Cur</span><input type="text" name="" placeholder="0,00"></li>
+                    <li><span>30</span><input type="text" name="" placeholder="70,00"></li>
+                    <li><span>60</span><input type="text" name="" placeholder="0,00"></li>
+                    <li><span>90</span><input type="text" name="" placeholder="0,00"></li>
+                    <li><span>120</span><input type="text" name="" placeholder="0,00"></li>
+                    <li><span>MTH</span><input type="text" name="" placeholder="70,00"></li>
+                </ul>
+                <label class="labelbottom">0000053</label>
+                <label class="labelbottom">Austin</label>
+            </div>
+        </div>
+        <div class="col-lg-10 col-xs-12 bluebg">
+            <form class="" action="" method="POST">
+            {{ form.hidden_tag() }}
+            <div class="row ">
+                <div class="mb-2 col-lg-9 customerForm">
+                    <label>Customers</label>
+                    <a class="greenbtn"  href="{{ url_for("add_customer") }}">New</a>
+                    <a class="greenbtn" href="{{ url_for("view_customer") }}">Edit</a>
+                    {{ form.submit(class="greybtn",id="") }}
+                    <a class="greybtn" href="{{ url_for("add_customer")}}">Cancel</a>
+                     <div class="greenbtn">Comms Log</div>
+                     <div class="greenbtn">Change Log</div>
+                </div>
+                <div class=" mb-2 col-lg-3">
+               <a href="javascript:void(0)"  class="greybtn">Payments</a>
+                <a class="greybtn" href="">Invoices</a>
+            </div>
+            </div>
+            <div class="row">
+                  <div class="col-lg-4 col-xs-12 pr-0">
+                    <table class="maintable">
+                        <tbody>
+                            <tr>
+                                <td><label>Contract</label></td>
+                                <td><input type="text" name="" class="form-control inputbox"></td>
+                                <td>
+                                    {% if form.Contract.errors %}
+                                    {{ form.Contract(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Contract") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.Contract.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.Contract(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Contract") }}
+                                    {% endif %}
+                                    <small class="form-text text-muted"></small>
+                                </td>
+                                <td><label>Joined</label></td>
+                                <td>
+                                    {% if form.JoinedMonth.errors %}
+                                    {{ form.JoinedMonth(class="custom-select custom-select-sm my-1 mr-sm-2 mb-2 is-invalid selectJoinedMonth", id="branchs",autocomplete="off",placeholder="JoinedMonth") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.JoinedMonth.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.JoinedMonth(class="custom-select custom-select-sm my-1 mr-sm-2 mb-2 selectJoinedMonth ", id="branchOps",autocomplete="off",placeholder="Joined") }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if form.JoinedYear.errors %}
+                                    {{ form.JoinedYear(class="custom-select custom-select-sm my-1 mr-sm-2 mb-2  is-invalid selectJoinedYear", id="branchs",autocomplete="off",placeholder="JoinedYear") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.JoinedYear.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.JoinedYear(class="custom-select custom-select-sm my-1 mr-sm-2 mb-2 selectJoinedYear ", id="branchOps",autocomplete="off",placeholder="Joined") }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><label> Surname or Company</label></td>
+                                <td colspan="4">
+                                    {% if form.Surname.errors %}
+                                    {{ form.Surname(class="form-control form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Surname or Company") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.Surname.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.Surname(class="form-control form-control-sm ", id="branchOps",autocomplete="off",placeholder="Surname or Company ") }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><label> Title-Init-First Name</label></td>
+                                <td>
+                                    {% if form.Title.errors %}
+                                    {{ form.Title(class="custom-select custom-select-sm selectTitle is-invalid", id="branchs",autocomplete="off") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.Title.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.Title(class="custom-select custom-select-sm selectTitle ", id="branchOps",autocomplete="off") }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if form.Initials.errors %}
+                                    {{ form.Initials(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Initials") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.Initials.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.Initials(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Initials") }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if form.FirstName.errors %}
+                                    {{ form.FirstName(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Firstname") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.FirstName.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.FirstName(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Firstname") }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><label>Number & Street</label></td>
+                                <td>
+                                    {% if form.StreetNumber.errors %}
+                                    {{ form.StreetNumber(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Street Number") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.StreetNumber.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.StreetNumber(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Street Number") }}
+                                    {% endif %}
+                                </td>
+                                <td colspan="3">
+                                    {% if form.StreetName.errors %}
+                                    {{ form.StreetName(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Street Name") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.StreetName.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.StreetName(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Street Name") }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><label>Suburb & Post Code</label></td>
+                                <td colspan="3">
+                                    {% if form.Suburb.errors %}
+                                    {{ form.Suburb(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Suburb") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.Suburb.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.Suburb(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Suburb") }}
+                                    {% endif %}
+                                </td>
+                                <td colspan="2">
+                                    {% if form.PostalCode.errors %}
+                                    {{ form.PostalCode(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Postal Code") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.PostalCode.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.PostalCode(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Postal Code") }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><label>Sales Consultant</label></td>
+                                <td colspan="4">
+                                    {% if form.SalesConsultant.errors %}
+                                    {{ form.SalesConsultant(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Sales Consultant") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.SalesConsultant.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.SalesConsultant(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Sales Consultant") }}
+                                    {% endif %}
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td colspan="2"><label>Home Telephone</label></td>
+                                <td colspan="4">
+                                    {% if form.HomePhone.errors %}
+                                    {{ form.HomePhone(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Home Phone") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.HomePhone.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.HomePhone(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Home Phone") }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><label>Work Number</label></td>
+                                <td colspan="4">
+                                    {% if form.WorkPhone.errors %}
+                                    {{ form.WorkPhone(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Work Phone") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.WorkPhone.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.WorkPhone(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Work Phone") }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><label>Payment Name</label></td>
+                                <td colspan="4">
+                                    {% if form.PaymentName.errors %}
+                                    {{ form.PaymentName(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Payment Name") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.PaymentName.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.PaymentName(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Payment Name") }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><label>ID Number</label></td>
+                                <td colspan="4">
+                                    {% if form.IDNumber.errors %}
+                                    {{ form.IDNumber(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="ID Number") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.IDNumber.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.IDNumber(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="ID Number") }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><label>Co VAT Number</label></td>
+                                <td colspan="4">
+                                    {% if form.vatNumber.errors %}
+                                    {{ form.vatNumber(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="VAT Number") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.vatNumber.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.vatNumber(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="VAT Number") }}
+                                {% endif %}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td colspan="2"><label>Pay-X-Ref</label></td>
+                                <td colspan="4">
+                                    {% if form.PayXReference.errors %}
+                                    {{ form.PayXReference(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Pay-X-Ref") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.PayXReference.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.PayXReference(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Pay-X-Ref") }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><label>Comment</label></td>
+                                <td colspan="4">
+                                {% if form.GeneralComments.errors %}
+                                {{ form.GeneralComments(class="form-control form-control-sm is-invalid", id="branchs",autocomplete="off",rows="3", placeholder="General Comments") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.InvoiceComments.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                    {{ form.GeneralComments(class="form-control form-control-sm ", id="branchOps",autocomplete="off",placeholder="General Comments") }}
+                                {% endif %}
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-5 col-xs-12 pr-0 pl-1">
+                     <div class="tableerap col-lg-12 p-0">
+                         <table class="reftable">
+                            <thead>
+                                <tr>
+                                    <th>Pay Reference</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                 </tr>
+                                 <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tableerap col-lg-12 p-0">
+                         <table class="reftable">
+                            <tbody>
+                                <tr>
+                                    <td><label>Age</label></td>
+                                    <td><input type="text" name="" class="form-control shadowinput f12" placeholder="0"></td>
+                                    <td><label>Balance</label></td>
+                                    <td><input type="text" name="" class="form-control shadowinput" placeholder="0.00"></td>
+                                </tr>
+                            </tbody>
+                         </table>
+                     </div>
+                     <div class=" col-lg-12 p-0">
+                         <table class="maintable">
+                            <tbody>
+                                <tr>
+                                    <td><label>Trailer</label></td>
+                                    <td>
+                                        {% if form.Trailer.errors %}
+                                        {{ form.Trailer(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Trailer") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.Trailer.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.Trailer(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Trailer") }}
+                                        {% endif %}
+                                    </td>
+                                    <td><label>Status</label></td>
+                                    <td colspan="2">
+                                       {% if form.Status.errors %}
+                                        {{ form.Status(class="custom-select inputbox custom-select-sm my-1 mr-sm-2  is-invalid selectStatus", id="branchs",autocomplete="off",placeholder="Status") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.Status.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.Status(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 selectStatus ", id="branchOps",autocomplete="off",placeholder="Status") }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><label>Frequency</label></td>
+                                    <td>
+                                        {% if form.Frequency.errors %}
+                                        {{ form.Frequency(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 is-invalid selectFrequency", id="branchs",autocomplete="off",placeholder="Frequency") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.Frequency.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.Frequency(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 selectFrequency", id="branchOps",autocomplete="off",placeholder="Frequency") }}
+                                        {% endif %}
+                                    </td>
+                                    <td><label>Bins</label></td>
+                                    <td>
+                                        {% if form.Bins.errors %}
+                                        {{ form.Bins(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Bins") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.Bins.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.Bins(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Bins") }}
+                                        {% endif %}
+                                    </td>
+                                    <td><label>Day</label></td>
+                                    <td>
+                                        {% if form.Day.errors %}
+                                        {{ form.Day(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 is-invalid", id="branchs",autocomplete="off",placeholder="Day") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.Day.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.Day(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 ", id="branchOps",autocomplete="off",placeholder="Day") }}
+                                    {% endif %}
+                                    </td>
+                                    <td><label>1off</label></td>
+                                    <td>
+                                        {% if form.OneOff.errors %}
+                                        {{ form.OneOff(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 is-invalid", id="branchs",autocomplete="off",placeholder="OneOff") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.OneOff.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.OneOff(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 ", id="branchOps",autocomplete="off",placeholder="OneOff") }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><label>Unit Price</label> </td>
+                                    <td colspan="2">
+                                        {% if form.unitPrice.errors %}
+                                        {{ form.unitPrice(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Unit Price") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.unitPrice.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.unitPrice(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Unit Price") }}
+                                        {% endif %} 
+                                    </td>
+                                    <td colspan="3"><label>Additional Fee</label> </td>
+                                    <td colspan="2">
+                                        {% if form.AdditionalFee.errors %}
+                                        {{ form.AdditionalFee(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="0.00") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.AdditionalFee.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.AdditionalFee(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="0.00") }}
+                                        {% endif %} 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><label>Description</label> </td>
+                                    <td colspan="7"><input type="text" name="" class="form-control inputbox" placeholder="50.00"> </td>
+                                   
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><label>Service Type</label> </td>
+                                    <td colspan="2">
+                                        {% if form.ServiceType.errors %}
+                                        {{ form.ServiceType(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 is-invalid selectServiceType", id="branchs",autocomplete="off") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.ServiceType.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.ServiceType(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 selectServiceType ", id="branchOps",autocomplete="off") }}
+                                        {% endif %}
+                                    </td>
+                                    <td colspan="3"><label>Payment By</label> </td>
+                                    <td colspan="2">
+                                        {% if form.PaymentBy.errors %}
+                                        {{ form.PaymentBy(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 is-invalid selectPaymentBy", id="branchs",autocomplete="off",placeholder="Service Sheets") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.PaymentBy.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.PaymentBy(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 selectPaymentBy", id="branchOps",autocomplete="off",placeholder="Service Sheets") }}
+                                        {% endif %} 
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td colspan="2"><label>Inv-Type</label> </td>
+                                    <td colspan="2">
+                                        {% if form.InvoiceType.errors %}
+                                        {{ form.InvoiceType(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 is-invalid selectInvoiceType", id="branchs",autocomplete="off",placeholder="Inv-Type") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.InvoiceType.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.InvoiceType(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 selectInvoiceType ", id="branchOps",autocomplete="off",placeholder="Inv-Type") }}
+                                        {% endif %}  
+                                    </td>
+                                    <td colspan="3"><label>Inv-Delivery</label> </td>
+                                    <td colspan="2">
+                                        {% if form.InvoiceDelivery.errors %}
+                                        {{ form.InvoiceDelivery(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2is-invalid selectInvoiceDelivery ", id="branchs",autocomplete="off",placeholder="Invoice Delivery") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.InvoiceDelivery.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.InvoiceDelivery(class="custom-select inputbox  custom-select-sm my-1 mr-sm-2 mb-2 selectInvoiceDelivery ", id="branchOps",autocomplete="off",placeholder="Invoice Delivery") }}
+                                        {% endif %} 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><label>Cell Number</label> </td>
+                                    <td colspan="2">
+                                        {% if form.CellPhone.errors %}
+                                        {{ form.CellPhone(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Cell Phone") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.CellPhone.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.CellPhone(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Cell Phone") }}
+                                        {% endif %}
+                                    </td>
+                                    <td colspan="3"><label>Service Sheet</label> </td>
+                                    <td colspan="2">
+                                        {% if form.ServiceSheets.errors %}
+                                        {{ form.ServiceSheets(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 is-invalid selectServiceSheets", id="branchs",autocomplete="off",placeholder="Service Sheets") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.ServiceSheets.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.ServiceSheets(class="custom-select custom-select-sm inputbox my-1 mr-sm-2 mb-2 selectServiceSheets ", id="branchOps",autocomplete="off",placeholder="Service Sheets") }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><label>Email</label> </td>
+                                    <td colspan="7">
+                                        {% if form.EMail.errors %}
+                                        {{ form.EMail(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Email") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.EMail.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.EMail(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Email") }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><label>Reminder</label> </td>
+                                    <td colspan="5">
+                                        {% if form.Reminder.errors %}
+                                        {{ form.Reminder(class="custom-select custom-select-sm my-1 mr-sm-2 mb-2 is-invalid", id="branchs",autocomplete="off",placeholder="Reminder") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.Reminder.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {{ form.Reminder(class="custom-select custom-select-sm my-1 mr-sm-2 mb-2", id="branchOps",autocomplete="off",placeholder="Reminder") }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                         </table>
+                     </div>
+                </div>
+
+
+                     <div class="col-lg-3 col-xs-12 p-0" id="many_actions">
+            <div class="col-lg-12 col-xs-12">
+              <table class="table table-striped table-hover tables table-bordered col-lg-12 rightinvoice" id="ref">
+                <tbody id="adminTableBody">
+                  <tr>
+                    <td  rowspan="2" class="font-weight-bold">Invoices</td>
+                    <td data-toggle="modal" data-target="#invoicelist" class="font-weight-bold text-success next-cleanrecord"> Next</td>
+                    <td data-toggle="modal" data-target="#invoicelastlist" class="font-weight-bold text-success">Last</td>
+                  </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                <tr>
+                    <td>Open</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                <tr>
+                    <td>Cleans</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                <tr>
+                    <td>Week 1</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                <tr>
+                    <td>Week 2</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Week 3</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                <tr>
+                    <td>Week 4</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                <tr>
+                    <td>Week 5</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                <tr>
+                    <td>Fees</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                <tr>
+                    <td>Add Fees</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                <tr>
+                    <td>Adjusts</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                <tr>
+                    <td>Paid</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>VAT</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                <tr>
+                    <td>Close</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+            </table>
+            </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+                <div class="col-lg-12 maintable botomtable">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><label>Schedule</label></td>
+                                <td>
+                                    {% if form.ScheduleComments.errors %}
+                                    {{ form.ScheduleComments(class="form-control form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Schedule Comments") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.ScheduleComments.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.ScheduleComments(class="form-control form-control-sm ", id="branchOps",autocomplete="off",placeholder="Schedule Comments") }}
+                                    {% endif %}
+                                </td>
+                                <td><label>Bank</label></td>
+                                <td>
+                                    {% if form.Bank.errors %}
+                                    {{ form.Bank(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Bank") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.Bank.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.Bank(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Bank") }}
+                                    {% endif %}
+                                </td>
+                                <td><label>A/C Type</label></td>
+                                <td>
+                                    {% if form.AccountType.errors %}
+                                    {{ form.AccountType(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 is-invalid selectAccountType", id="branchOps",autocomplete="off",placeholder="Account Type") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.AccountType.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.AccountType(class="custom-select inputbox custom-select-sm my-1 mr-sm-2 mb-2 selectAccountType", id="branchOps",autocomplete="off",placeholder="Account Type") }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td rowspan="2"><label>Invoice</label></td>
+                                <td rowspan="2">
+                                    {% if form.InvoiceComments.errors %}
+                                    {{ form.InvoiceComments(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Invoice Comments") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.InvoiceComments.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.InvoiceComments(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Invoice Comments") }}
+                                {% endif %}
+                                </td>
+                                <td><label>Branch</label></td>
+                                <td>
+                                    {% if form.BranchName.errors %}
+                                    {{ form.BranchName(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Branch Name") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.BranchName.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.BranchName(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Branch Name") }}
+                                {% endif %}
+                                </td>
+                                <td colspan="2">
+                                    {% if form.BranchCode.errors %}
+                                    {{ form.BranchCode(class="form-control inputbox form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Branch Code") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.BranchCode.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.BranchCode(class="form-control inputbox form-control-sm ", id="branchOps",autocomplete="off",placeholder="Branch Code") }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Acc. No.</label></td>
+                                <td colspan="3">
+                                    {% if form.BankAccount.errors %}
+                                    {{ form.BankAccount(class="form-control form-control-sm is-invalid", id="branchs",autocomplete="off",placeholder="Bank Account") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.BankAccount.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form.BankAccount(class="form-control form-control-sm ", id="branchOps",autocomplete="off",placeholder="Bank Account") }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+<!--search modal-->
+{% include 'modals/search.html' %}
+{% endblock %}
